@@ -1,0 +1,15 @@
+View Controller:
+* create and manage view hierarchy via the property view
+* when a view controller is added as a root view controller of a window, its view hierarchy is added as a subview of window.
+* two ways to create a view hierarchy
+  * programming in loadView method
+  * create a XIB or a storyboard file
+    * when create a XIB file, follow the steps below
+      1. create a view hierarchy
+      2. make connections between view controller and XIB file
+        1. set "File's Owner" of XIB file to view controller => Set Custom class to the targeted view controller
+        2. bind view outlet in "File's Owner" to a view of canvas => Set outlets in "File's Owner"
+        * when a XIB is loaded, 1. you need to set up which object owns (in charge of releasing view objects) view hierarchy; 2. how to bind view hierarchy to view controller's view
+* to present a view controller, you need add it as a root view controller of window in application:didFinishLaunchingWithOptions:
+* a view controller can be added as a child of tab bar controller
+* access and configure subviews of a view hierarchy at viewDidLoad

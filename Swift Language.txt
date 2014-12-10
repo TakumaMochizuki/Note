@@ -1,0 +1,43 @@
+Swift
+
+Optional:
+* is used if the value might be absent (nil).
+* var value:Int? = 3
+* ? mark indicates the variable might be absent.
+* nil can be assigned to the optional.
+* if you declare a variable of constant without initialization, the value will be assigned to nil automatically.
+* any type can be declared as a optional.
+* optional binding: use if/switch to check if the value is absent
+  var value:Int? = nil
+  if var testValue = a {
+  	...
+  }
+* use ! mark to force the option to unwrap.
+* implicitly unwrapped optional:
+  * used when optional always has a value after the value is first set.
+  * pros
+    * no need to check and unwrap the optional's value each time it's accessed
+  * cons
+    * a run time error if nil
+  * Don't use it if it's possibility of a variable becoming nil at a later point.
+* always prefer to optional first.
+
+Enumeration:
+* two categories => raw and associated value type
+* raw value
+  * each member shares the same data type
+  * each member has only one value for each instance
+* associated value
+  * each member can has its own data type
+  * the value of member might be different for different instances
+
+Initialization:
+* 
+
+
+=== Question ===
+* inout => does it apply to class too?
+* closure captures variables in it context. Does it capture value or reference?
+
+
+
