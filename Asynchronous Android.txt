@@ -26,8 +26,7 @@ Ch1
      => Memory leak through holding references to views, activity context at worker thread when an activity lifecycle is destoryed
      => Waste CPU cycles, battery by continuing to do background works and results cannot be displayed because an activity has finished
      => Prevent system from killing long-run operations to complete when system reclaims memory
-Ch2
-* AsyncTask
+Ch2 AsyncTask
 => When to use it
    => Allow to perform short-lived background operations (below 3 seconds, 3 only means very short) which pertains directly to specific activity or fragment to reflect on UI views immediately
       => For example, 
@@ -35,13 +34,14 @@ Ch2
          => CPU intensive: do image processing, manipulate text string
 => When not to use it
    => Cost much effort to run (over 3 seconds) operations when device rotates, switches between activities, app...
-   => Operations are not specific to current activity or fragment
+   => Operations are not specific to current activity or fragment and shared amount activities, fragments or in a app.
       => For example, HTTP web API calls
 => Implementation of AsyncTask
    => Extend AsyncTask
       => Params are parameter objects passed in to AsyncTask
       => Progress is object which is used to report task status
       => Result is object which contains final result
+   => Don't implement it as anonymous inner class or inner class in activity or it will result in memory leakage
    => Do heavy tasks at doInBackground method
       => Run at worker thread
       => Never called if a task is canceled before it begins
@@ -53,23 +53,38 @@ Ch2
       => Cannot do heavy tasks because they run at UI thread
    => To cancel a task, you need to periodically check isCancel in doInBackground method especially for those API calls that consume time
    => If exceptions happen at worker thread, you need to report to UI
-      => for example
+      => for example, implement Result as below:
          static class Result<T> {
          	private T value;
          	private Exception e;
          }
       => Catch exception at doInBackground
+   => Don't keep any references to activity context, view hierarchy of activity in task object 
 => How to use it
-   => Each instance can be used only once
-   => Excuting sequence of tasks
+   => Each task can be executed only once
+   => Order of task execution
       => Serial or concurrent
-   => Activity lifecycle
+   => Take care of the issue of activity lifecycle
       => To avoid wasting CPU/battery or memory leakage because a worker thread holds an activity context or view hierarchy
-         => you need to check
+         => 1. You need to check
             => if an activity is finished, then cancel a task
-            => if an activity is not finished, then keep running a task
-         => Use headless retained fragment, see p30, Asynchronous Android
+            => if an activity is not finished, then keep running a task, for example A activity starts another B activity
+         => 2. Use "headless retained fragment", see p30, Asynchronous Android
+=> Alternative
+   => SafeAsyncTask<ResultT>, Roboguice
+=> Criticism
+   => Bind closely to activity cycle
+      => Memory leakage
+         => When activity is finished and a task is still running, memory leaks if 
+            => 1. a task holds a reference to activity context, view hierarchy of activity
+            => 2. a task is implemented as a anonymous inner class, inner class in an activity
+      => Losing results
+         => When an activiy is recreated due to device rotation, results lose
+      => App crash
+         => If an AsycTask holds a reference to view hierarchy of activity and updating UI for view hierarchy incurs exceptions when activity is finished
+   => Not support exception handling
 
-
+Reference:
+=> https://raw.githubusercontent.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
 
 
