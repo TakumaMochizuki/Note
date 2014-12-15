@@ -4,9 +4,15 @@ Ch1
 * choreographics
 * correctness & liveness
 Ch2
-* cancel(xxx)
 * checked exception
-* SafeAsync
+Ch3
+* what is done in looper prepare
+* how handler acquires looper
+* runOnUIThread will be excuted immediately
+* why remove message is easier than runnable
+* it is not a good idea in practice to post non-static "Runnables" onto the main thread's Handler queue (especially with postDelayed or postAtTime) unless we're very careful to clean up after ourselves. why message doesn't have such symptom
+* to prevent keep a reference to ui element, we can use weak reference
+* asynctask v.s. handlerthread
 
 ===Notes===
 Ch1
@@ -23,25 +29,26 @@ Ch1
         => Solution: Mutual exclusion
      => Liveness => Dead lock
   => Android concurrent problem
-     => Memory leak through holding references to views, activity context at worker thread when an activity lifecycle is destoryed
-     => Waste CPU cycles, battery by continuing to do background works and results cannot be displayed because an activity has finished
+     => Memory leak through holding references to views, Activity context at worker thread when an Activity lifecycle is destoryed
+     => Waste CPU cycles, battery by continuing to do background works and results cannot be displayed because an Activity has finished
      => Prevent system from killing long-run operations to complete when system reclaims memory
+
 Ch2 AsyncTask
 => When to use it
-   => Allow to perform short-lived background operations (below 3 seconds, 3 only means very short) which pertains directly to specific activity or fragment to reflect on UI views immediately
+   => Allow to perform short-lived background operations (below 3 seconds, 3 only means very short) which pertains directly to specific Activity or fragment to reflect on UI views immediately
       => For example, 
          => I/O blocking: fetch data from database, read a local file
          => CPU intensive: do image processing, manipulate text string
 => When not to use it
    => Cost much effort to run (over 3 seconds) operations when device rotates, switches between activities, app...
-   => Operations are not specific to current activity or fragment and shared amount activities, fragments or in a app.
+   => Operations are not specific to current Activity or fragment and shared amount activities, fragments or in a app.
       => For example, HTTP web API calls
 => Implementation of AsyncTask
    => Extend AsyncTask
       => Params are parameter objects passed in to AsyncTask
       => Progress is object which is used to report task status
       => Result is object which contains final result
-   => Don't implement it as anonymous inner class or inner class in activity or it will result in memory leakage
+   => Don't implement it as anonymous inner class or inner class in Activity or it will result in memory leakage
    => Do heavy tasks at doInBackground method
       => Run at worker thread
       => Never called if a task is canceled before it begins
@@ -59,32 +66,79 @@ Ch2 AsyncTask
          	private Exception e;
          }
       => Catch exception at doInBackground
-   => Don't keep any references to activity context, view hierarchy of activity in task object 
+   => Don't keep any references to Activity context, view hierarchy of Activity in task object 
 => How to use it
    => Each task can be executed only once
    => Order of task execution
       => Serial or concurrent
-   => Take care of the issue of activity lifecycle
-      => To avoid wasting CPU/battery or memory leakage because a worker thread holds an activity context or view hierarchy
+   => Take care of the issue of Activity lifecycle
+      => To avoid wasting CPU/battery or memory leakage because a worker thread holds an Activity context or view hierarchy
          => 1. You need to check
-            => if an activity is finished, then cancel a task
-            => if an activity is not finished, then keep running a task, for example A activity starts another B activity
+            => if an Activity is finished, then cancel a task
+            => if an Activity is not finished, then keep running a task, for example A Activity starts another B Activity
          => 2. Use "headless retained fragment", see p30, Asynchronous Android
+      => Use WeakReference to keep Activity context or view hierarchy and avoid app crash when updating UI after Activity is finished
 => Alternative
    => SafeAsyncTask<ResultT>, Roboguice
 => Criticism
-   => Bind closely to activity cycle
+   => Bind closely to Activity cycle
       => Memory leakage
-         => When activity is finished and a task is still running, memory leaks if 
-            => 1. a task holds a reference to activity context, view hierarchy of activity
-            => 2. a task is implemented as a anonymous inner class, inner class in an activity
+         => When Activity is finished and a task is still running, memory leaks if 
+            => 1. a task holds a reference to Activity context, view hierarchy of Activity
+            => 2. a task is implemented as a anonymous inner class, inner class in an Activity
       => Losing results
          => When an activiy is recreated due to device rotation, results lose
       => App crash
-         => If an AsycTask holds a reference to view hierarchy of activity and updating UI for view hierarchy incurs exceptions when activity is finished
+         => If an AsycTask holds a reference to view hierarchy of Activity and updating UI for view hierarchy incurs exceptions when Activity is finished
    => Not support exception handling
+=> Reference:
+   => https://raw.githubusercontent.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
 
-Reference:
-=> https://raw.githubusercontent.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
-
-
+Ch3
+=> Looper
+   => Event loop
+      => With an event queue
+      => Dispatch events (message) in its method loop
+   => Attach to a specific thread
+   => Each app has a main event loop to dispatch all UI events in main thread
+=> Handler
+   => Schedule events (Runnable or Message) to queue in its looper
+   => Respond to events in method handleMessage or Runnable callback
+   => Attach to a looper
+   => Cancel pending events via removeXXX
+   => Event object
+      => Message
+         => Prefer composition (implement Handler.Callback) over inheritance (exend Handler)
+         => Override handledMessage
+         => Define message id
+      => Runnable
+         => Memory leaks when you create an anonymous inner or inner class when post a delayed event
+   => You can bind a Handler to any thread and dipatch event to it
+=> Event (Message or Runnable)
+   => Message
+      => Prefer obtaining a message via Message.obtain or Handler.obtainMessage to a new instance
+         => Message class maintain a recycle list to reduce GC from a lot of message objects
+      => Send it via Handler
+   => Runnable
+      => Post a runnable via Handler
+   => When writing code in Activity, runOnUiThread is a good helper to use
+   => In a single thread app, breaking down a big task into small pieces could maintain responsive
+   => Message v.s. Runnable
+      => Message can be reused to avoid GC
+=> HandlerThread
+   => When to use it
+      => Allow to perform short-lived background operations (below 3 seconds, 3 only means very short) which pertains directly to specific Activity or fragment to reflect on UI views immediately
+      => For example, 
+         => I/O blocking: fetch data from database, read a local file
+         => CPU intensive: do image processing, manipulate text string
+   => Create an instance of HandlerThread, pass its Looper to a Handler and submit tasks to it
+   => A HandlerThread must be shut down by invoking quit method to avoid memory leakage
+      => A quitSafely to process all remaining tasks before shutting down
+   => Issue when work with Activity
+      => Memory leakage
+         => It's not a good idea to post non-static Runnable onto the main thread's message queue especially with postDelay and postAtTime
+            => Avoid non-static, annonymous class
+            => Use WeakReference to keep Acitivity context and view hierarchy in Runnable
+            => Add and remove UI callback at onResume, onPause respectively in UI Handler
+      => App crash
+         => Use WeakReference to keep Acitivity context and view hierarchy in Runnable
