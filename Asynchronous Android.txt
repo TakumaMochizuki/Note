@@ -2,18 +2,17 @@
 Ch1
 * stack base, register base vm? what's different between stack and register?
 * choreographics
-* correctness & liveness
-Ch2
-* checked exception
+* synchronization: correctness & liveness
 Ch3
-* what is done in looper prepare
-* how handler acquires looper
-* runOnUIThread will be excuted immediately
-* why remove message is easier than runnable
-* it is not a good idea in practice to post non-static "Runnables" onto the main thread's Handler queue (especially with postDelayed or postAtTime) unless we're very careful to clean up after ourselves. why message doesn't have such symptom
-* to prevent keep a reference to ui element, we can use weak reference
 * asynctask v.s. handlerthread
-
+Ch 4
+* Read source code of CursorLoader, LoaderManager to see how it works?
+* How to decide if a loader is going to die? when activity is destroy?
+* Loader
+  => When to start to load data, cancle it and dispose it (cleanup)
+  => Work with Activity's lifecycle
+* compare CursorLoader and example in this chapter
+* clarify relationship between client, loadermanager, loader
 ===Notes===
 Ch1
 * Responsive 
@@ -142,3 +141,42 @@ Ch3
             => Add and remove UI callback at onResume, onPause respectively in UI Handler
       => App crash
          => Use WeakReference to keep Acitivity context and view hierarchy in Runnable
+
+Ch4
+=> Loader
+   => Benefits
+      => The heavy lifting is performed on a background thread and results are delivered to UI thread on completion
+      => Loaded data can be cached and shared across Activity lifecycle
+      => Loader's data is not bound to a specific UI/Activity lifecycle
+      => Monitor data source and reload when necessary
+   => Managed by LoaderManager
+   => AsyncTaskLoader
+      => General purpose Loader
+      => Extend Loader and is Abstract class to be extended
+      => Use AsyncTask to perform background jobs
+         => Tasks are executed using THREAD_POOL_EXECUTOR
+      => Loader live longer than Activity, you should keeps a reference to ApplicationContext instead of Activity context to prevent memory leaks
+      => Do heavy tasks in loadInBackground at background thread
+      => ?????? A diagram to show the relationship among client, LoaderManager, Loader
+   => CursorLoader
+      => Extend AsyncTaskLoader
+      => Load data from local database
+=> LoaderManager
+   => Coordinate Loader's lifecycle events with UI/Activity/Fragment lifecycle and expose Loader to its client ???????
+   => Connect a Loader with its client via LoaderCallbacks
+      => onCreateLoader: create a Loader which is managed by LoaderManager
+      => onLoadFinished: receive results and bind data to UI
+      => onLoaderReset: unbind data to UI
+   => Operation
+      => Call initLoader to start a Loader task
+         => Use id to identify a specific Loader
+            => Use a string and hash it as a unique id
+               => "Image_Loader".hashCode()
+         => Use Bundle to contain parameters
+         => Use LoaderCallbacks to interact with UI
+=> Compare to AsyncTask
+   => Pros
+      => Cache data
+      => Not tie to Activity lifecycle
+   => Cons
+      => More code
