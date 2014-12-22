@@ -5,14 +5,6 @@ Ch1
 * synchronization: correctness & liveness
 Ch3
 * asynctask v.s. handlerthread
-Ch 4
-* Read source code of CursorLoader, LoaderManager to see how it works?
-* How to decide if a loader is going to die? when activity is destroy?
-* Loader
-  => When to start to load data, cancle it and dispose it (cleanup)
-  => Work with Activity's lifecycle
-* compare CursorLoader and example in this chapter
-* clarify relationship between client, loadermanager, loader
 ===Notes===
 Ch1
 * Responsive 
@@ -146,37 +138,46 @@ Ch4
 => Loader
    => Benefits
       => The heavy lifting is performed on a background thread and results are delivered to UI thread on completion
-      => Loaded data can be cached and shared across Activity lifecycle
-      => Loader's data is not bound to a specific UI/Activity lifecycle
+      => Loaded data can be cached and redelivered on repeat calls
+         => Cache across Activity restart
+         => Cache before a specific Activity is destroyed, A -> B -> C, 
+      => Loader's data is bound to a specific UI/Activity lifecycle
+         => Loader is managed by LoaderManager
+         => Each Activity has its own LoaderManager which manages its Loaders
       => Monitor data source and reload when necessary
-   => Managed by LoaderManager
+   => Managed object and is looked after by LoaderManager
+      => Created when LoaderManager.initLoader, LoaderManager.restartLoader are called
+      => Destroyed when LoaderManager.destroyLoader is called or Activity is destroyed
    => AsyncTaskLoader
       => General purpose Loader
       => Extend Loader and is Abstract class to be extended
       => Use AsyncTask to perform background jobs
          => Tasks are executed using THREAD_POOL_EXECUTOR
-      => Loader live longer than Activity, you should keeps a reference to ApplicationContext instead of Activity context to prevent memory leaks
       => Do heavy tasks in loadInBackground at background thread
-      => ?????? A diagram to show the relationship among client, LoaderManager, Loader
+      => A diagram to show the relationship among client, LoaderManager, Loader
+         => (Todo: Add a diagram here)
    => CursorLoader
       => Extend AsyncTaskLoader
       => Load data from local database
 => LoaderManager
-   => Coordinate Loader's lifecycle events with UI/Activity/Fragment lifecycle and expose Loader to its client ???????
+   => Coordinate Loader's lifecycle events with UI/Activity/Fragment lifecycle and expose Loader to its client
+      => Dispatch a heavy task to Loader
+      => Provide callbacks to its client to respond to data loaded by Loader
    => Connect a Loader with its client via LoaderCallbacks
       => onCreateLoader: create a Loader which is managed by LoaderManager
       => onLoadFinished: receive results and bind data to UI
       => onLoaderReset: unbind data to UI
    => Operation
-      => Call initLoader to start a Loader task
+      => Call initLoader/restartLoader to start a Loader task
          => Use id to identify a specific Loader
             => Use a string and hash it as a unique id
                => "Image_Loader".hashCode()
          => Use Bundle to contain parameters
          => Use LoaderCallbacks to interact with UI
+      => Call destroyLoader to destroy a Loader task
 => Compare to AsyncTask
    => Pros
-      => Cache data
-      => Not tie to Activity lifecycle
+      => Cache data to across Activity restart
+      => LoaderManager manages lifecycle of Loader
    => Cons
-      => More code
+      => More code to write
