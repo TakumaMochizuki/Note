@@ -85,7 +85,7 @@ Ch2 AsyncTask
 => Reference:
    => https://raw.githubusercontent.com/octo-online/robospice/master/gfx/RoboSpice-InfoGraphics.png
 
-Ch3
+Ch3 Looper, Handler and HandlerThread
 => Looper
    => Event loop
       => With an event queue
@@ -134,13 +134,11 @@ Ch3
       => App crash
          => Use WeakReference to keep Acitivity context and view hierarchy in Runnable
 
-Ch4
+Ch4 Loader
 => Loader
    => Benefits
       => The heavy lifting is performed on a background thread and results are delivered to UI thread on completion
-      => Loaded data can be cached and redelivered on repeat calls
-         => Cache across Activity restart
-         => Cache before a specific Activity is destroyed, A -> B -> C, 
+      => Loaded data can be cached and redelivered on repeat calls across Activity restart
       => Loader's data is bound to a specific UI/Activity lifecycle
          => Loader is managed by LoaderManager
          => Each Activity has its own LoaderManager which manages its Loaders
@@ -154,8 +152,8 @@ Ch4
       => Use AsyncTask to perform background jobs
          => Tasks are executed using THREAD_POOL_EXECUTOR
       => Do heavy tasks in loadInBackground at background thread
-      => A diagram to show the relationship among client, LoaderManager, Loader
-         => (Todo: Add a diagram here)
+      => Relationship among client, LoaderManager, Loader
+         => See Loader.pdf
    => CursorLoader
       => Extend AsyncTaskLoader
       => Load data from local database
@@ -181,3 +179,39 @@ Ch4
       => LoaderManager manages lifecycle of Loader
    => Cons
       => More code to write
+
+Ch5 IntentService
+=> Service
+   => Lifecycle callbacks are run at UI thread
+   => Outlive Activity and App
+   => Remain active even if the application hosting it is not foreground app
+=> IntentService
+   => When to use it
+      => Long-running tasks where the job is not tied to Activity lifecycle
+      => Jobs must complete regardless of whether the user exits the app
+      => A single thread is sufficient to handle the workload
+      => E.g. upload files
+   => Work queue processor: a task queue to process on work on a single thread
+      => Order process
+   => Call startService to enqueue a task
+      => Start an IntentService
+      => enqueue a task
+   => Result from IntentService
+      => Send a PendingIntent back to Activity onActivityResult
+         => At Activity
+            => Create a PendingIntent via Activity createPendingResult
+            => Send a PendingIntent embedded in Intent to IntentService via startService
+            => Receive results at Activity onActivityResult
+         => At IntentService
+            => Fetch embedded PendingIntent
+            => Wrap results in Intent
+            => Send it back to Activity via PendingIntent.send
+      => Post system notification when App is not in the foreground
+      => Send a Message via Handler of original Activity
+      => Broadcast Intent
+   => Implementation
+      => Extend IntentService
+         => Override onHandleIntent
+            => This runs at background thread
+      => Register in AndroidManifest
+         => Prevent other apps from invoking it by adding android:exported = "false"
