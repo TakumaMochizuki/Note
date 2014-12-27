@@ -15,7 +15,9 @@
               "title": "Main Thread",
               "id": 27,
               "attr": {
-                "style": {}
+                "style": {
+                  "background": "#008000"
+                }
               },
               "ideas": {
                 "1": {
@@ -26,21 +28,35 @@
                       "title": "Message",
                       "id": 31,
                       "attr": {
-                        "style": {}
+                        "style": {
+                          "background": "#008000"
+                        }
                       }
                     },
                     "2": {
                       "title": "Runnable",
                       "id": 32,
                       "attr": {
-                        "style": {}
+                        "style": {
+                          "background": "#008000"
+                        }
                       }
+                    }
+                  },
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
                     }
                   }
                 },
                 "2": {
                   "title": "Looper",
-                  "id": 30
+                  "id": 30,
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
+                    }
+                  }
                 }
               }
             },
@@ -58,13 +74,28 @@
                       "ideas": {
                         "1": {
                           "title": "SafeAsyncTask",
-                          "id": 26
+                          "id": 26,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
+                        }
+                      },
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
                         }
                       }
                     },
                     "2": {
                       "title": "HandlerThread",
-                      "id": 20
+                      "id": 20,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
                     },
                     "3": {
                       "title": "Loader",
@@ -72,7 +103,12 @@
                       "ideas": {
                         "1": {
                           "title": "LoaderManager",
-                          "id": 41
+                          "id": 41,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
                         },
                         "2": {
                           "title": "AsyncLoader",
@@ -80,9 +116,24 @@
                           "ideas": {
                             "1": {
                               "title": "CursorLoader",
-                              "id": 44
+                              "id": 44,
+                              "attr": {
+                                "style": {
+                                  "background": "#008000"
+                                }
+                              }
+                            }
+                          },
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
                             }
                           }
+                        }
+                      },
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
                         }
                       }
                     },
@@ -98,14 +149,26 @@
                               "title": "ConcurrentIntentService",
                               "id": 24,
                               "attr": {
-                                "style": {}
+                                "style": {
+                                  "background": "#008000"
+                                }
                               }
+                            }
+                          },
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
                             }
                           }
                         },
                         "3": {
                           "title": "LocalService",
-                          "id": 25
+                          "id": 25,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
                         }
                       }
                     }
@@ -139,7 +202,12 @@
               "ideas": {
                 "1": {
                   "title": "Messenger",
-                  "id": 36
+                  "id": 36,
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
+                    }
+                  }
                 },
                 "2": {
                   "title": "Handler",
@@ -147,11 +215,26 @@
                   "ideas": {
                     "1": {
                       "title": "Message",
-                      "id": 38
+                      "id": 38,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
                     },
                     "2": {
                       "title": "Runnable",
-                      "id": 39
+                      "id": 39,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    }
+                  },
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
                     }
                   }
                 },
@@ -161,11 +244,21 @@
                 },
                 "4": {
                   "title": "PendingIntent",
-                  "id": 45
+                  "id": 45,
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
+                    }
+                  }
                 },
                 "5": {
                   "title": "ResultReceiver",
-                  "id": 46
+                  "id": 46,
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
+                    }
+                  }
                 },
                 "6": {
                   "title": "Broadcast Intent",
@@ -173,13 +266,28 @@
                   "ideas": {
                     "1": {
                       "title": "BroadcastReceiver",
-                      "id": 48
+                      "id": 48,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    }
+                  },
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
                     }
                   }
                 },
                 "7": {
                   "title": "Pub / Sub Callback",
-                  "id": 49
+                  "id": 49,
+                  "attr": {
+                    "style": {
+                      "background": "#008000"
+                    }
+                  }
                 }
               }
             }
