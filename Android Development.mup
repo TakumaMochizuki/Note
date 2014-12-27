@@ -1,0 +1,56 @@
+{
+  "title": "Android Development",
+  "id": 1,
+  "formatVersion": 2,
+  "ideas": {
+    "1": {
+      "title": "Asynchronous",
+      "id": 2,
+      "ideas": {},
+      "attr": {
+        "position": [
+          186.5,
+          -64.5,
+          2
+        ],
+        "style": {}
+      }
+    },
+    "2": {
+      "title": "Test",
+      "id": 8
+    },
+    "3": {
+      "title": "Tool",
+      "id": 13,
+      "ideas": {
+        "1": {
+          "title": "IDE",
+          "id": 14
+        }
+      }
+    },
+    "-1": {
+      "title": "View",
+      "id": 5,
+      "ideas": {}
+    },
+    "-2": {
+      "title": "Performance",
+      "id": 10,
+      "ideas": {}
+    },
+    "-12": {
+      "title": "Memory",
+      "id": 12,
+      "attr": {
+        "position": [
+          203.5,
+          86.5,
+          1
+        ],
+        "style": {}
+      }
+    }
+  }
+}
