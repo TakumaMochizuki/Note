@@ -6,7 +6,46 @@
     "1": {
       "title": "Asynchronous",
       "id": 2,
-      "ideas": {},
+      "ideas": {
+        "1": {
+          "title": "Mult-task",
+          "id": 16,
+          "ideas": {
+            "1": {
+              "title": "Framework",
+              "id": 17,
+              "ideas": {
+                "1": {
+                  "title": "AsyncTask",
+                  "id": 19
+                },
+                "2": {
+                  "title": "HandlerThread",
+                  "id": 20
+                },
+                "3": {
+                  "title": "Loader",
+                  "id": 21
+                },
+                "4": {
+                  "title": "Service",
+                  "id": 22,
+                  "ideas": {
+                    "1": {
+                      "title": "IntentService",
+                      "id": 23
+                    }
+                  }
+                }
+              }
+            },
+            "2": {
+              "title": "Java",
+              "id": 18
+            }
+          }
+        }
+      },
       "attr": {
         "position": [
           186.5,
@@ -26,7 +65,13 @@
       "ideas": {
         "1": {
           "title": "IDE",
-          "id": 14
+          "id": 14,
+          "ideas": {
+            "1": {
+              "title": "Android Studio",
+              "id": 15
+            }
+          }
         }
       }
     },
