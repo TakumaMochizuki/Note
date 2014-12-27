@@ -200,85 +200,9 @@
               "title": "Communication between Main and Worker Thread",
               "id": 35,
               "ideas": {
-                "1": {
-                  "title": "Messenger",
-                  "id": 36,
-                  "attr": {
-                    "style": {
-                      "background": "#008000"
-                    }
-                  }
-                },
-                "2": {
-                  "title": "Handler",
-                  "id": 37,
-                  "ideas": {
-                    "1": {
-                      "title": "Message",
-                      "id": 38,
-                      "attr": {
-                        "style": {
-                          "background": "#008000"
-                        }
-                      }
-                    },
-                    "2": {
-                      "title": "Runnable",
-                      "id": 39,
-                      "attr": {
-                        "style": {
-                          "background": "#008000"
-                        }
-                      }
-                    }
-                  },
-                  "attr": {
-                    "style": {
-                      "background": "#008000"
-                    }
-                  }
-                },
                 "3": {
                   "title": "Event Hub",
                   "id": 40
-                },
-                "4": {
-                  "title": "PendingIntent",
-                  "id": 45,
-                  "attr": {
-                    "style": {
-                      "background": "#008000"
-                    }
-                  }
-                },
-                "5": {
-                  "title": "ResultReceiver",
-                  "id": 46,
-                  "attr": {
-                    "style": {
-                      "background": "#008000"
-                    }
-                  }
-                },
-                "6": {
-                  "title": "Broadcast Intent",
-                  "id": 47,
-                  "ideas": {
-                    "1": {
-                      "title": "BroadcastReceiver",
-                      "id": 48,
-                      "attr": {
-                        "style": {
-                          "background": "#008000"
-                        }
-                      }
-                    }
-                  },
-                  "attr": {
-                    "style": {
-                      "background": "#008000"
-                    }
-                  }
                 },
                 "7": {
                   "title": "Pub / Sub Callback",
@@ -286,6 +210,88 @@
                   "attr": {
                     "style": {
                       "background": "#008000"
+                    }
+                  }
+                },
+                "8": {
+                  "title": "Framework",
+                  "id": 66,
+                  "ideas": {
+                    "1": {
+                      "title": "Handler",
+                      "id": 37,
+                      "ideas": {
+                        "1": {
+                          "title": "Message",
+                          "id": 38,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
+                        },
+                        "2": {
+                          "title": "Runnable",
+                          "id": 39,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
+                        }
+                      },
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    },
+                    "2": {
+                      "title": "PendingIntent",
+                      "id": 45,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    },
+                    "3": {
+                      "title": "ResultReceiver",
+                      "id": 46,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    },
+                    "4": {
+                      "title": "Broadcast Intent",
+                      "id": 47,
+                      "ideas": {
+                        "1": {
+                          "title": "BroadcastReceiver",
+                          "id": 48,
+                          "attr": {
+                            "style": {
+                              "background": "#008000"
+                            }
+                          }
+                        }
+                      },
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
+                    },
+                    "5": {
+                      "title": "Messenger",
+                      "id": 36,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
                     }
                   }
                 }
