@@ -292,10 +292,30 @@
                           "background": "#008000"
                         }
                       }
+                    },
+                    "6": {
+                      "title": "Notification",
+                      "id": 67,
+                      "attr": {
+                        "style": {
+                          "background": "#008000"
+                        }
+                      }
                     }
                   }
                 }
               }
+            }
+          }
+        },
+        "2": {
+          "title": "Scheduled Task",
+          "id": 68,
+          "ideas": {
+            "1": {
+              "title": "AlarmManager",
+              "id": 70,
+              "ideas": {}
             }
           }
         }
